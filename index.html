@@ -1,322 +1,306 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>@AlimDEZZ ACODA Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --main: #00ff88;
-      --second: #009f66;
-      --bg: #0e0e0e;
-      --text: #eeeeee;
-    }
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Orbitron', sans-serif;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-    html, body {
-      background: linear-gradient(135deg, #000, #0e0e0e);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 0;
-      overflow: hidden;
-      touch-action: none;
-    }
-    .glass-box {
-      max-width: 320px;
-      width: 100%;
-      padding: 25px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 18px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,255,136,0.25);
-    }
-    h1 {
-      text-align: center;
-      color: var(--main);
-      margin-bottom: 20px;
-      font-size: 1.3rem;
-      animation: neon 2s infinite alternate;
-    }
-    @keyframes neon {
-      from { text-shadow: 0 0 10px var(--main); }
-      to { text-shadow: 0 0 25px var(--second); }
-    }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 1rem;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 1rem;
-      margin-top: 10px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--main), var(--second));
-      color: #000;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      box-shadow: 0 0 15px var(--main);
-      transform: scale(1.02);
-    }
-    .menu-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .panel-section {
-      display: none;
-      margin-top: 15px;
-    }
-    .user-list div {
-      margin-bottom: 5px;
-      display: flex;
-      justify-content: space-between;
-      background: rgba(255,255,255,0.05);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-    }
-    #popup {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
-    #popup-inner {
-      background: #111;
-      color: #0f0;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-    }
-    #popup-inner button {
-      margin-top: 10px;
-      background: #0f0;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Music Player Online | Alyph, Kejundang, Penjaga Hati</title>
+
+<meta name="description" content="Music player online percuma. Dengarkan lagu Alyph, Kejundang dan Penjaga Hati terus dari browser. Lihat lirik sambil dengar lagu.">
+<meta name="keywords" content="music player online, lagu malaysia, alyph, kejundang, penjaga hati, lirik lagu">
+<meta name="author" content="Music App">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(270deg,#1a2a6c,#b21f1f,#0f2027);
+  background-size: 600% 600%;
+  animation: bgMove 15s ease infinite;
+}
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.box {
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+  width: 320px;
+}
+.center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+input, select, button {
+  width: 90%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  font-size: 15px;
+  border: none;
+}
+input { background: rgba(255,255,255,0.2); color: white; }
+input::placeholder { color: #ddd; }
+button { background: #4facfe; color: white; cursor: pointer; }
+button:hover { opacity: 0.85; }
+audio { width: 100%; margin-top: 10px; }
+#lyrics { text-align: left; margin-top: 10px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; height: 150px; overflow-y: auto; font-size: 14px; }
+</style>
 </head>
+
 <body>
 
-<div id="login-box" class="glass-box">
-  <h1>Login - SPIDER UI 1.9 ACODA</h1>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
+<!-- LOGIN -->
+<div id="loginBox" class="box center">
+  <h2>Login</h2>
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
   <button onclick="login()">Login</button>
-  <div id="login-result" style="margin-top:10px;text-align:center;"></div>
+  <p id="msg"></p>
 </div>
 
-<div id="dashboard-box" class="glass-box" style="display:none;">
-  <h1>Welcome, <span id="userRole">User</span></h1>
-  <div class="menu-buttons" id="menu-buttons">
-    <button onclick="showPanel('addUser')" id="btnAdd">Add User</button>
-    <button onclick="showPanel('deleteUser')" id="btnDelete">Delete User</button>
-    <button onclick="showPanel('listUser')" id="btnList">List Users</button>
-    <button onclick="showPanel('attack')" id="btnAttack">Attack Menu</button>
-  </div>
-
-  <!-- Add User -->
-  <div id="addUserPanel" class="panel-section">
-    <input type="text" id="newUser" placeholder="New Username">
-    <input type="text" id="newPass" placeholder="New Password">
-    <select id="newLevel"></select>
-    <button onclick="addUser()">Add User</button>
-  </div>
-
-  <!-- Delete User -->
-  <div id="deleteUserPanel" class="panel-section">
-    <select id="deleteUserSelect"></select>
-    <button onclick="deleteSelectedUser()">Delete Selected</button>
-  </div>
-
-  <!-- List User -->
-  <div id="listUserPanel" class="panel-section">
-    <div class="user-list" id="listUserContent"></div>
-  </div>
-
-  <!-- Attack -->
-  <div id="attackPanel" class="panel-section">
-    <input type="text" id="target" placeholder="628xxxx">
-    <select id="bugType">
-      <option value="crashtotal">FC Invisible</option>
-      <option value="fc">kontol WA</option>
-      <option value="delay">Delay WA</option>
-      <option value="blank">Blank Chat</option>
-    </select>
-    <button onclick="sendBug()">Kirim Bug</button>
-    <div id="attackResult" style="margin-top:10px;"></div>
-  </div>
+<!-- MENU -->
+<div id="menuBox" class="box center" style="display:none;">
+  <h2>Menu</h2>
+  <button onclick="musicTool()">🎧 Music Player</button>
+  <button onclick="logout()">🚪 Logout</button>
 </div>
 
-<div id="popup">
-  <div id="popup-inner">
-    <div id="popup-message"></div>
-    <button onclick="closePopup()">OK</button>
-  </div>
+<!-- MUSIC PLAYER -->
+<!-- MUSIC PLAYER -->
+<div id="musicBox" class="box center" style="display:none;">
+  <h2>🎶 Music Player</h2>
+
+  <!-- Dropdown untuk pilih lagu -->
+  <select id="musicSelect">
+    <option value="">--Pilih Lagu--</option>
+    <option value="alyph">Alyph</option>
+    <option value="hanya">Hanya Kau Yang Mampu</option>
+    <option value="penjaga">Penjaga Hati</option>
+  </select>
+
+  <br><br>
+  <button onclick="playMusicSelect()">Play</button>
+
+  <audio id="musicPlayer" controls></audio>
+  <p id="musicStatus"></p>
+
+  <div id="lyrics"></div>
+
+  <br>
+  <button onclick="backMenu()">⬅ Back</button>
 </div>
 
 <script>
-const BIN_ID = "68735d1b6063391d31ac9ac6";
-const API_KEY = "$2a$10$szo39FwRq5meyGTdjTaiiOZehnPtHaRCZVqCRA.tF57BDppNthsaC";
-const headers = {
-  "Content-Type": "application/json",
-  "X-Master-Key": API_KEY
-};
+function login() {
+  const u = username.value;
+  const p = password.value;
 
-let currentUser = null;
-
-async function getUsers() {
-  try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/68735d1b6063391d31ac9ac6/latest`, { headers });
-    const data = await res.json();
-    return data.record.users;
-  } catch (e) {
-    document.getElementById("login-result").innerText = "❌ Gagal ambil data!";
-    return [];
-  }
-}
-
-async function saveUsers(users) {
-  await fetch(`https://api.jsonbin.io/v3/b/68735d1b6063391d31ac9ac6`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({ users })
-  });
-}
-
-async function login() {
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
-  const users = await getUsers();
-  const found = users.find(u => u.username === user && u.password === pass);
-  if (found) {
-    currentUser = found;
-    document.getElementById("login-box").style.display = "none";
-    document.getElementById("dashboard-box").style.display = "block";
-    document.getElementById("userRole").innerText = found.username;
-    setupMenuByRole(found.level);
+  if (u === "admin" && p === "1234") {
+    loginBox.style.display = "none";
+    menuBox.style.display = "block";
   } else {
-    document.getElementById("login-result").innerText = "❌ Username atau Password salah!";
+    msg.innerText = "Login salah ❌";
   }
 }
 
-function setupMenuByRole(level) {
-  document.getElementById("btnAdd").style.display = "none";
-  document.getElementById("btnDelete").style.display = "none";
-  document.getElementById("btnList").style.display = "none";
-  document.getElementById("btnAttack").style.display = "none";
-  const newLevelSelect = document.getElementById("newLevel");
-  newLevelSelect.innerHTML = "";
+function logout() { location.reload(); }
+function musicTool() { menuBox.style.display = "none"; musicBox.style.display = "block"; }
+function backMenu() { musicBox.style.display = "none"; menuBox.style.display = "block"; }
 
-  if (level === "admin") {
-    ["btnAdd", "btnDelete", "btnList", "btnAttack"].forEach(id => document.getElementById(id).style.display = "block");
-    newLevelSelect.innerHTML = `<option value="basic">basic</option><option value="vip">vip</option><option value="admin">admin</option>`;
-  } else if (level === "vip") {
-    ["btnAdd", "btnDelete", "btnList", "btnAttack"].forEach(id => document.getElementById(id).style.display = "block");
-    newLevelSelect.innerHTML = `<option value="basic">basic</option><option value="vip">vip</option>`;
-  } else if (level === "basic") {
-    document.getElementById("btnAttack").style.display = "block";
-  }
-}
+function playMusicSelect() {
+  const song = document.getElementById("musicSelect").value;
+  const player = document.getElementById("musicPlayer");
+  const status = document.getElementById("musicStatus");
+  const lyricsDiv = document.getElementById("lyrics");
 
-function showPanel(panel) {
-  document.querySelectorAll(".panel-section").forEach(p => p.style.display = "none");
-  document.getElementById(panel + "Panel").style.display = "block";
-  if (panel === "deleteUser") populateDeleteSelect();
-  if (panel === "listUser") renderUserList();
-}
+  // Link + Lirik setiap lagu
+  const songs = {
+    alyph: {
+      src: "https://files.catbox.moe/er8kjk.m4a",
+      lyrics: `Ingat — ALYPH
 
-async function addUser() {
-  const uname = document.getElementById("newUser").value.trim();
-  const pwd = document.getElementById("newPass").value.trim();
-  const level = document.getElementById("newLevel").value;
-  if (!uname || !pwd) return alert("Isi semua field!");
-  const users = await getUsers();
-  users.push({ username: uname, password: pwd, level });
-  await saveUsers(users);
-  alert("✅ User ditambahkan!");
-}
+Kau kata kau nampak aku tengok dari jauh kau rasa terganggu
+Aku kata aku tak berani mengejar apa yang aku mahu
+Kau kata kau tak percaya aku boleh buat kau tunggu macam tu
+Aku ingat masa aku jatuh cinta denganmu
 
-async function populateDeleteSelect() {
-  const users = await getUsers();
-  const select = document.getElementById("deleteUserSelect");
-  select.innerHTML = "";
-  users.forEach(u => {
-    if (currentUser.level === "vip" && u.level === "admin") return;
-    select.innerHTML += `<option value="${u.username}">${u.username} (${u.level})</option>`;
-  });
-}
+Cam mana?
+Dalam banyak orang aku dengannya?
+Penampilannya seindah bahasa
+Kehadirannya memberi tenaga
 
-async function deleteSelectedUser() {
-  const uname = document.getElementById("deleteUserSelect").value;
-  if (!confirm(`Hapus user ${uname}?`)) return;
-  let users = await getUsers();
-  users = users.filter(u => u.username !== uname);
-  await saveUsers(users);
-  alert("✅ User dihapus!");
-  populateDeleteSelect();
-}
+Damansara
+Dinner dates
+Masuk cinema bawak takeaway
+Masa tu masa bersama lebih
+Berharga daripada harga duit
 
-async function renderUserList() {
-  const div = document.getElementById("listUserContent");
-  const users = await getUsers();
-  div.innerHTML = users.map(u => `<div>${u.username} (${u.level})</div>`).join('');
-}
+Memandu lebuh raya ke arah utara
+Dia nak bawak aku jumpa keluarga
+Leganya apabila aku di terima
+Kalau ada jam pagi raya pun takpe
 
-function showPopup(msg) {
-  document.getElementById("popup-message").innerHTML = msg;
-  document.getElementById("popup").style.display = "flex";
-}
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
+Ada banyak yang aku nak ceritakan
+Ada banyak soalan dan perasaan
+Hanya kau yang akan faham
+Boleh tak kita mula dari mula?
 
-async function sendBug() {
-  const input = document.getElementById("target").value.trim();
-  const selectedBug = document.getElementById("bugType").value;
-  const chatId = `${input}@s.whatsapp.net`;
-  const result = document.getElementById("attackResult");
+Kau kata kau nampak aku tengok dari jauh kau rasa terganggu
+Aku kata aku tak berani mengejar apa yang aku mahu
+Kau kata kau tak percaya aku boleh buat kau tunggu macam tu
+Aku ingat masa aku jatuh cinta denganmu
 
-  if (!/^\d+$/.test(input)) {
-    result.innerText = "⚠️ Masukkan nomor yang valid!";
-    result.style.color = "orange";
+Beberapa tahun kemudian
+Pabila kita mula mengejar impian
+Aku mula sibuk dengan tugasan kerja
+Sementara kau pula sibuk dengan uni final year
+Bila kita bersama
+Perasaannya tak sama
+Dulu senang tapi sekarang macam nak kena paksa
+Tiba hari kita dua terima kenyataan
+Berputus, tu kali terakhir kita berdepan
+
+Kau masih kelihatan seperti kali pertama kita bertemu
+Kau telah buat keputusan yang baik dengan hidup yang baru
+Wajah tiga-tiga Cahaya matamu serupa denganmu
+Dia angguk dia setuju dan kata padaku
+
+Ada banyak yang aku nak ceritakan
+Ada banyak soalan dan perasaan
+Hanya kau yang akan faham
+Boleh tak kita mula dari mula?
+
+Kau kata kau nampak aku tengok dari jauh kau rasa terganggu
+Aku kata aku tak berani mengejar apa yang aku mahu
+Kau kata kau tak percaya aku boleh buat kau tunggu macam tu
+Aku ingat masa aku jatuh cinta denganmu
+
+@UserBotPremVinzz_bot`
+    },
+    hanya: {  // Tukar Kejundang ke "Hanya Kau Yang Mampu"
+      src: "https://files.catbox.moe/pp8rgp.m4a",
+      lyrics: `Hanya Kau Yang Mampu — Aizat
+
+Kucuba redakan relung hati
+Bayangmu yang berlalu pergi
+Terlukis di dalam kenangan
+Bebas bermain di hatiku
+
+Dan cerita tentang masa lalu
+Cerita tentang kau dan aku
+Kini tinggal hanya kenangan
+Kau abadi dalam hatiku
+
+Harusnya takkan kubiarkan engkau pergi
+Membuatku terpuruk rasa ingin mati
+Derita yang mendera kapan akan berakhir
+Hanya engkau yang mampu taklukkan hatiku
+
+Cerita tentang masa lalu
+Cerita tentang kau dan aku
+Kini tinggal hanya kenangan
+Kau abadi dalam hatiku
+
+Harusnya takkan kubiarkan engkau pergi
+Membuatku terpuruk rasa ingin mati
+Derita yang mendera kapan akan berakhir
+Hanya engkau yang mampu taklukkan hatiku
+
+Ah aku cinta uh wo oh
+Ah aku cinta wo wo oh
+Ah aku cinta uh wo oh
+Ah aku cinta wo wo oh
+
+Hu
+Wo
+
+Harusnya takkan kubiarkan engkau pergi
+Membuatku terpuruk rasa ingin mati
+Derita yang mendera kapan akan berakhir
+Hanya engkau yang mampu taklukkan hatiku
+
+Ah aku cinta uh wo oh
+Ah aku cinta wo wo oh
+Ah aku cinta uh wo oh
+Ah aku cinta wo wo oh
+
+Hanya engkau yang mampu taklukkan hatiku
+Ho
+`
+    },
+    penjaga: {
+      src: "https://files.catbox.moe/uofxu2.mp3",
+      lyrics: `penjaga hati — Nadhif Basalamah
+
+Tak sadar kutemukan
+Temukan wanita rupawan yang sadarkan
+Dia seorang, tiada lain tiada bukan
+Hanya dia
+
+Dia buatku nyaman
+Dalam hangat pelukan
+Dia perasa yang mengerti yang kurasa
+Hanya dia
+
+'Kan kuarungi tujuh laut samudra
+'Kan kudaki Pegunungan Himalaya
+Apa pun 'kan kulakukan 'tuk dirimu, Sayang
+Oh, penjaga hati
+
+Kau dan aku sempurna
+Semoga ada cara 'tuk terus bersama
+Selalu kutunggu, tak mau berlalu
+Kau dan aku
+
+'Kan kuarungi tujuh laut samudra
+'Kan kudaki Pegunungan Himalaya
+Apa pun 'kan kulakukan 'tuk dirimu, Sayang
+Oh, penjaga hatiku, ho-uh-oh
+
+'Kan kuarungi tujuh laut samudra
+'Kan kudaki Pegunungan Himalaya
+Apa pun 'kan kulakukan 'tuk dirimu, Sayang
+Oh, penjaga hatiku, ho-uh-oh
+
+Karena bersamamu semua terasa indah (terasa indah)
+Gundah gulana hatiku telah hancur sirna (gulana hatiku telah sirna)
+Janjiku takkan kulepas, wahai kau, bidadariku dari surga
+'Tuk selamanya
+
+'Tuk selamanya
+'Tuk selamanya
+`
+    }
+  };
+
+  if (!song) {
+    status.innerText = "Sila pilih lagu!";
+    lyricsDiv.innerText = "";
     return;
   }
 
-  result.innerText = "⏳ Mengirim...";
-  try {
-    const res = await fetch(`https://cella-saja.mydigital-store.me/permen?chatId=${encodeURIComponent(chatId)}&type=${selectedBug}`);
-    await res.json();
-    result.innerText = "";
-    showPopup(`✅ Bug berhasil dikirim ke <b>${input}</b>`);
-  } catch (err) {
-    result.innerText = "❌ Gagal kirim: " + err;
-    result.style.color = "crimson";
+  const selected = songs[song];
+  if (!selected) {
+    status.innerText = "Lagu tak jumpa ❌";
+    lyricsDiv.innerText = "";
+    return;
   }
+
+  player.src = selected.src;
+  player.load();
+  player.play();
+  status.innerText = "Sedang main: " + song + " ▶️";
+  lyricsDiv.innerText = selected.lyrics;
 }
 </script>
+
 </body>
 </html>
